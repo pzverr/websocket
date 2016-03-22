@@ -11,7 +11,7 @@ Fork of [morozovsk/websocket](https://github.com/morozovsk/websocket).
 }
 ```
 
-### Symfony22 Integration Example
+### Symfony2 Integration Example
 services.yml<br/>
 ```yml
 ...
