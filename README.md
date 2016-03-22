@@ -11,13 +11,13 @@ Fork of [morozovsk/websocket](https://github.com/morozovsk/websocket).
 }
 ```
 
-### Symfony Integration Example
+### Symfony22 Integration Example
 services.yml<br/>
 ```yml
 ...
 services:
     default_daemon_handler:
-        class: AppBundle\Service\DefaultDaemonHandler
+        class: AppBundle\Services\DefaultDaemonHandler
         arguments: [doctrine.orm.entity_manager]
 ...
 ```
