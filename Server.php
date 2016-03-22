@@ -54,9 +54,9 @@ class Server
         }
 
         if (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'libevent') {
-            class_alias('pzverr\websocket\GenericLibevent', 'pzverr\websocket\Generic');
+            require_once('GenericLibevent.php'); 
         } elseif (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'event') {
-            class_alias('pzverr\websocket\GenericEvent', 'pzverr\websocket\Generic');
+            require_once('GenericEvent.php'); 
         }
 
         file_put_contents($this->config['pid'], posix_getpid());
