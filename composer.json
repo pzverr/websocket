@@ -1,0 +1,32 @@
+{
+    "name" : "pzverr/websocket",
+    "description" : "Simple websocket server on php, based on morozovsk/websocket",
+    "authors" : [{
+        "name" : "Pavel Zverev",
+        "email" : "pzverr@gmail.com"
+    }],
+    "keywords" : [
+        "websocket",
+        "server",
+        "socket_select",
+        "event",
+        "libevent",
+        "yii",
+        "laravel",
+        "symfony"
+    ],
+    "license" : [
+        "MIT"
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
+    "require" : {
+        "php": ">=5.3.0",
+        "ext-mbstring": "*"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "pzverr\\websocket\\" : ""
+        }
+    }
+}
