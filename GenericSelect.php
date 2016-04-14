@@ -2,7 +2,7 @@
 
 namespace pzverr\websocket;
 
-abstract class Generic
+abstract class GenericSelect
 {
     const SOCKET_BUFFER_SIZE = 1024;
     #const MAX_SOCKET_BUFFER_SIZE = 10240;

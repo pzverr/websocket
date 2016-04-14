@@ -54,11 +54,11 @@ class Server
         }
 
         if (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'libevent') {
-            abstract class SuperDaemon extends GenericLibevent {}
+            class_alias('morozovsk\websocket\GenericLibevent', 'morozovsk\websocket\Generic');
         } elseif (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'event') {
-            abstract class SuperDaemon extends GenericEvent {}
+            class_alias('morozovsk\websocket\GenericEvent', 'morozovsk\websocket\Generic');
         } else {
-            abstract class SuperDaemon extends Generic {}
+            class_alias('morozovsk\websocket\GenericSelect', 'morozovsk\websocket\Generic');
         }
 
         file_put_contents($this->config['pid'], posix_getpid());
