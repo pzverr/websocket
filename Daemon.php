@@ -2,7 +2,7 @@
 
 namespace pzverr\websocket;
 
-abstract class Daemon extends Generic
+class Daemon extends SuperDaemon
 {
     protected $pid;
 

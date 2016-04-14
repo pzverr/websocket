@@ -54,9 +54,11 @@ class Server
         }
 
         if (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'libevent') {
-            require_once('GenericLibevent.php'); 
+            abstract class SuperDaemon extends GenericLibevent {}
         } elseif (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'event') {
-            require_once('GenericEvent.php'); 
+            abstract class SuperDaemon extends GenericEvent {}
+        } else {
+            abstract class SuperDaemon extends Generic {}
         }
 
         file_put_contents($this->config['pid'], posix_getpid());
