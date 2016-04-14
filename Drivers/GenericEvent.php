@@ -1,6 +1,6 @@
 <?php
 
-namespace pzverr\websocket;
+namespace pzverr\websocket\Drivers;
 
 abstract class GenericEvent
 {

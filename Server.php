@@ -53,17 +53,6 @@ class Server
             }
         }
 
-        if (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'libevent') {
-            // class_alias('morozovsk\websocket\GenericLibevent', 'morozovsk\websocket\Generic');
-            use 'pzverr\websocket\GenericLibevent' as Generic;
-        } elseif (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'event') {
-            // class_alias('morozovsk\websocket\GenericEvent', 'morozovsk\websocket\Generic');
-            use 'pzverr\websocket\GenericEvent' as Generic;
-        } else {
-            use 'pzverr\websocket\GenericSelect' as Generic;
-            // class_alias('morozovsk\websocket\GenericSelect', 'morozovsk\websocket\Generic');
-        }
-
         file_put_contents($this->config['pid'], posix_getpid());
 
         $worker = $this->config['class'];

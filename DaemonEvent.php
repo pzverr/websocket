@@ -2,7 +2,9 @@
 
 namespace pzverr\websocket;
 
-class Daemon extends Generic
+use pzverr\websocket\Drivers\GenericEvent;
+
+abstract class DaemonEvent extends GenericEvent
 {
     protected $pid;
 
