@@ -1,8 +1,8 @@
 ## Simple websocket server
 
-Fork of [morozovsk/websocket](https://github.com/morozovsk/websocket).
-Increased MAX_SOCKET_BUFFER_SIZE to 262144.
-Add Custom options in Daemon Class.
+Fork of [morozovsk/websocket](https://github.com/morozovsk/websocket).<br/>
+Increased MAX_SOCKET_BUFFER_SIZE to 262144.<br/>
+Add Custom options in Daemon Class.<br/>
 
 ### Installation
 ```json
