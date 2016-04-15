@@ -2,7 +2,7 @@
 
 namespace pzverr\websocket;
 
-class Server
+class Server implements ServerInterface
 {
     public function __construct($config)
     {
@@ -53,13 +53,25 @@ class Server
             }
         }
 
+        if (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'libevent') {
+            class_alias('pzverr\websocket\Drivers\GenericLibevent', 'pzverr\websocket\Drivers\Generic');
+        } elseif (!empty($this->config['eventDriver']) && $this->config['eventDriver'] == 'event') {
+            class_alias('pzverr\websocket\Drivers\GenericEvent', 'pzverr\websocket\Drivers\Generic');
+        } else {
+            class_alias('pzverr\websocket\Drivers\GenericSelect', 'pzverr\websocket\Drivers\Generic');
+        }
+
         file_put_contents($this->config['pid'], posix_getpid());
 
-        $worker = $this->config['class'];
+        $options = [];
 
-        $worker->setServer($server);
-        $worker->setService($service);
-        $worker->setMaster($master);
+        if (isset($this->config['options'])) {
+            $options = $this->config['options'];
+        }
+
+        $workerClass = $this->config['class'];
+
+        $worker = new $workerClass($server, $service, $master, $options);
 
         if (!empty($this->config['timer'])) {
             $worker->timer = $this->config['timer'];

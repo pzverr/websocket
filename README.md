@@ -1,6 +1,8 @@
 ## Simple websocket server
 
 Fork of [morozovsk/websocket](https://github.com/morozovsk/websocket).
+Increased MAX_SOCKET_BUFFER_SIZE to 262144.
+Add Custom options in Daemon Class.
 
 ### Installation
 ```json
@@ -11,48 +13,24 @@ Fork of [morozovsk/websocket](https://github.com/morozovsk/websocket).
 }
 ```
 
-### Symfony2 Integration Example
-services.yml<br/>
-```yml
-...
-services:
-    default_daemon_handler:
-        class: AppBundle\Services\DefaultDaemonHandler
-        arguments: [doctrine.orm.entity_manager]
-...
-```
-AppBundle\Services\DefaultDaemonHandler.php<br/>
-```php
-use pzverr\websocket\Daemon;
-...
-class DefaultDaemonHandler extends Daemon
-{
-    protected $em
-
-    /**
-    * @param \Doctrine\ORM\EntityManager $em
-    */
-    public function __construct($em)
-    {
-        parent::__construct();
-        $this->em = $em;
-    }
-}
-...
-```
-AppBundle\Console\Command\WebSocketServerCommand.php<br/>
+### Symfony2 Example
+FooBundle\Console\Command\WebSocketServerCommand.php<br/>
 ```php
 class WebSocketServerCommand extends ContainerAwareCommand
 {
     ...
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
         $servers = [
             'default' => [
-                'class' => $this->getContainer()->get("default_daemon_handler"),
-                'pid' => '/tmp/websocket_airdump.pid',
+                'class' => 'AppBundle\WebSocket\DefaultDaemonHandler',
+                'pid' => '/tmp/websocket_default.pid',
                 'websocket' => 'tcp://localhost:5001',
-                'timer' => 2
+                'options' => [
+                    'em' => $em,
+                ]
             ]
         ];
 
@@ -64,4 +42,19 @@ class WebSocketServerCommand extends ContainerAwareCommand
         call_user_func(array($WebSocketServer, $action));
     }
 }
+
+```
+AppBundle\Services\DefaultDaemonHandler.php<br/>
+```php
+use pzverr\websocket\Daemon;
+...
+class DefaultDaemonHandler extends Daemon
+{
+    protected function onOpen($connectionId, $info)
+    {
+        $entity = $this->em->getRepository('FooBundle:Entity')->find(1);
+        //etc
+    }
+}
+...
 ```

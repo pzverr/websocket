@@ -2,32 +2,29 @@
 
 namespace pzverr\websocket;
 
-use pzverr\websocket\Drivers\GenericEvent;
+use pzverr\websocket\Drivers\Generic;
 
-abstract class DaemonEvent extends GenericEvent
+abstract class Daemon extends Generic
 {
     protected $pid;
 
     private $_handshakes = array();
 
-    public function __construct()
+    public function __construct($server, $service, $master, $options)
     {
         $this->pid = posix_getpid();
-    }
 
-    public function setServer($server)
-    {
         $this->_server = $server;
-    }
 
-    public function setService($service)
-    {
         $this->_service = $service;
-    }
 
-    public function setMaster($master)
-    {
         $this->_master = $master;
+
+        if (!empty($options)) {
+            foreach ($options as $key => $option) {
+                $this->{$key} = $option;
+            }
+        }
     }
 
     protected function _onOpen($connectionId)

@@ -5,7 +5,7 @@ namespace pzverr\websocket\Drivers;
 abstract class GenericLibevent
 {
     const SOCKET_BUFFER_SIZE = 1024;
-    const MAX_SOCKET_BUFFER_SIZE = 10240;
+    const MAX_SOCKET_BUFFER_SIZE = 262144;
     const MAX_SOCKETS = 1000;
     const SOCKET_MESSAGE_DELIMITER = "\n";
     protected $clients = array();
