@@ -14,7 +14,7 @@ Add Custom options in Daemon Class.<br/>
 ```
 
 ### Symfony2 Example
-FooBundle\Console\Command\WebSocketServerCommand.php<br/>
+AppBundle\Console\Command\WebSocketServerCommand.php<br/>
 ```php
 class WebSocketServerCommand extends ContainerAwareCommand
 {
