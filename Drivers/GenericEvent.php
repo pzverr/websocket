@@ -25,26 +25,26 @@ abstract class GenericEvent
     {
         $this->onStart();
 
-        $this->base = new \EventBase();
+        $this->base = new EventBase();
 
         if ($this->_server) {
-            $this->event = new \EventListener($this->base, array($this, "accept"), $this->base, \EventListener::OPT_CLOSE_ON_FREE | \EventListener::OPT_REUSEABLE, -1, $this->_server);
+            $this->event = new EventListener($this->base, array($this, "accept"), $this->base, EventListener::OPT_CLOSE_ON_FREE | EventListener::OPT_REUSEABLE, -1, $this->_server);
         }
 
         if ($this->_service) {
-            $this->service_event = new \EventListener($this->base, array($this, "service"), $this->base, \EventListener::OPT_CLOSE_ON_FREE | \EventListener::OPT_REUSEABLE, -1, $this->_service);
+            $this->service_event = new EventListener($this->base, array($this, "service"), $this->base, EventListener::OPT_CLOSE_ON_FREE | EventListener::OPT_REUSEABLE, -1, $this->_service);
         }
 
         if ($this->_master) {
             $connectionId = $this->getIdByConnection($this->_master);
-            $buffer = new \EventBufferEvent($this->base, $this->_master, \EventBufferEvent::OPT_CLOSE_ON_FREE);
+            $buffer = new EventBufferEvent($this->base, $this->_master, EventBufferEvent::OPT_CLOSE_ON_FREE);
             $buffer->setCallbacks(array($this, "onRead"), array($this, "onWrite"), array($this, "onError"), $connectionId);
-            $buffer->enable(\Event::READ | \Event::WRITE | \Event::PERSIST);
+            $buffer->enable(Event::READ | Event::WRITE | Event::PERSIST);
             $this->buffers[$connectionId] = $buffer;
         }
 
         if ($this->timer) {
-            $timer = \Event::timer($this->base, function() use (&$timer) {$timer->addTimer($this->timer);$this->onTimer();});
+            $timer = Event::timer($this->base, function() use (&$timer) {$timer->addTimer($this->timer);$this->onTimer();});
             $timer->addTimer($this->timer);
         }
 
@@ -53,9 +53,9 @@ abstract class GenericEvent
 
     public function accept($listener, $connectionId, $address, $id)
     {
-        $buffer = new \EventBufferEvent($this->base, $connectionId, \EventBufferEvent::OPT_CLOSE_ON_FREE);
+        $buffer = new EventBufferEvent($this->base, $connectionId, EventBufferEvent::OPT_CLOSE_ON_FREE);
         $buffer->setCallbacks(array($this, "onRead"), array($this, "onWrite"), array($this, "onError"), $connectionId);
-        $buffer->enable(\Event::READ | \Event::WRITE | \Event::PERSIST);
+        $buffer->enable(Event::READ | Event::WRITE | \Event::PERSIST);
         $this->clients[$connectionId] = $connectionId;
         $this->buffers[$connectionId] = $buffer;
 
@@ -64,9 +64,9 @@ abstract class GenericEvent
 
     public function service($listener, $connectionId, $address, $id)
     {
-        $buffer = new \EventBufferEvent($this->base, $connectionId, \EventBufferEvent::OPT_CLOSE_ON_FREE);
+        $buffer = new EventBufferEvent($this->base, $connectionId, EventBufferEvent::OPT_CLOSE_ON_FREE);
         $buffer->setCallbacks(array($this, "onRead"), array($this, "onWrite"), array($this, "onError"), $connectionId);
-        $buffer->enable(\Event::READ | \Event::WRITE | \Event::PERSIST);
+        $buffer->enable(Event::READ | Event::WRITE | Event::PERSIST);
         $this->services[$connectionId] = $connectionId;
         $this->buffers[$connectionId] = $buffer;
 
@@ -114,7 +114,7 @@ abstract class GenericEvent
 
     protected function close($connectionId)
     {
-        $this->buffers[$connectionId]->disable(\Event::READ | \Event::WRITE);
+        $this->buffers[$connectionId]->disable(Event::READ | Event::WRITE);
         unset($this->buffers[$connectionId]);
     }
 
