@@ -179,7 +179,7 @@ abstract class GenericSelect
     protected function _createTimer() {
         $pair = stream_socket_pair(STREAM_PF_UNIX, STREAM_SOCK_STREAM, STREAM_IPPROTO_IP);
 
-        $pid = pcntl_fork();
+        $pid = \pcntl_fork();
 
         if ($pid == -1) {
             die("error: pcntl_fork\r\n");
